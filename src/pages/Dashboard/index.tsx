@@ -1,73 +1,67 @@
-import React, { useState }  from 'react';
-import { View, Text, SafeAreaView, TouchableOpacity, TextInput, StyleSheet} from 'react-native'
+import React, { useState } from 'react';
+import { View, Text, SafeAreaView, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { StackPramsList } from '../../routes/app.routes';
+import { api } from '../../service/api';
 
-import { useNavigation } from '@react-navigation/native'
-
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { StackPramsList } from '../../routes/app.routes'
-
-import { api } from '../../service/api'
-
-export default function Dashboard(){
+export default function Dashboard() {
   const navigation = useNavigation<NativeStackNavigationProp<StackPramsList>>();
-
   const [number, setNumber] = useState('');
- 
 
-  async function openOrder(){
-    if(number === ''){
+  async function openOrder() {
+    if (number === '') {
       return;
     }
 
-    const response = await api.post('/order', {
-      table: Number(number)
-    })
+    try {
+      const response = await api.post('/order', {
+        table: Number(number),
+      });
 
-    //console.log(response.data);
-
-    navigation.navigate('Order', { number: number, order_id: response.data.id })
-
-    setNumber('');
-
+      navigation.navigate('Order', { number, order_id: response.data.id });
+      setNumber('');
+    } catch (error) {
+      console.error('Erro ao abrir pedido:', error);
+      // Aqui você pode adicionar uma mensagem de erro para o usuário, se necessário
+    }
   }
-  
 
-  return(
+  return (
     <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>Novo pedido</Text>
+      <Text style={styles.title}>Novo pedido</Text>
 
-        <TextInput
-          placeholder="Numero da mesa"
-          placeholderTextColor="#F0F0F0"
-          style={styles.input}
-          keyboardType="numeric"
-          value={number}
-          onChangeText={setNumber}
-        />
+      <TextInput
+        placeholder="Número da mesa"
+        placeholderTextColor="#F0F0F0"
+        style={styles.input}
+        keyboardType="numeric"
+        value={number}
+        onChangeText={setNumber}
+      />
 
-        <TouchableOpacity style={styles.button} onPress={openOrder}>
-          <Text style={styles.buttonText}>Abrir mesa</Text>
-        </TouchableOpacity>
-
+      <TouchableOpacity style={styles.button} onPress={openOrder}>
+        <Text style={styles.buttonText}>Abrir mesa</Text>
+      </TouchableOpacity>
     </SafeAreaView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
+  container: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 15,
-    backgroundColor: '#1d1d2e'
+    backgroundColor: '#1d1d2e',
   },
-  title:{
+  title: {
     fontSize: 30,
     fontWeight: 'bold',
     color: '#FFF',
     marginBottom: 24,
   },
-  input:{
+  input: {
     width: '90%',
     height: 60,
     backgroundColor: '#101026',
@@ -75,20 +69,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     textAlign: 'center',
     fontSize: 22,
-    color: '#FFF'
+    color: '#FFF',
   },
-  button:{
+  button: {
     width: '90%',
     height: 40,
     backgroundColor: '#3fffa3',
     borderRadius: 4,
     marginVertical: 12,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
-  buttonText:{
+  buttonText: {
     fontSize: 18,
     color: '#101026',
-    fontWeight: 'bold'
-  }
-})
+    fontWeight: 'bold',
+  },
+});

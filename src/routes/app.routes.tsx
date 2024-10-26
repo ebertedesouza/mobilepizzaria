@@ -1,11 +1,13 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import SignIn from '../pages/SignIn'; // Importando a tela de login
 import Dashboard from '../pages/Dashboard'; // Verifique se o caminho está correto
 import Order from '../pages/Order';
 import FinishOrder from '../pages/FinishOrder';
 
 export type StackPramsList = {
+  SignIn: undefined; // Adicionando a tela de login aqui
   Dashboard: undefined;
   Order: {
     number: number | string;
@@ -23,7 +25,12 @@ function AppRoutes() {
   return (
     <Stack.Navigator>
       <Stack.Screen 
-        name="Dashboard" // O nome deve ser exatamente "Dashboard"
+        name="SignIn" // Adicionando a tela de login
+        component={SignIn} 
+        options={{ headerShown: false }} 
+      />
+      <Stack.Screen 
+        name="Dashboard" 
         component={Dashboard} 
         options={{ headerShown: false }} 
       />
