@@ -23,13 +23,22 @@ export default function Dashboard() {
       setNumber('');
     } catch (error) {
       console.error('Erro ao abrir pedido:', error);
-      // Aqui você pode adicionar uma mensagem de erro para o usuário, se necessário
     }
+  }
+
+  function handleLogout() {
+    // Aqui você pode adicionar a lógica para logout, como limpar o token de autenticação
+    navigation.navigate('SignIn'); // Redireciona para a tela de login
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Novo pedido</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>Novo pedido</Text>
+        <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
+          <Text style={styles.logoutText}>Sair</Text>
+        </TouchableOpacity>
+      </View>
 
       <TextInput
         placeholder="Número da mesa"
@@ -43,6 +52,10 @@ export default function Dashboard() {
       <TouchableOpacity style={styles.button} onPress={openOrder}>
         <Text style={styles.buttonText}>Abrir mesa</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('OpenOrders')}>
+        <Text style={styles.buttonText}>Pedidos em Aberto</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -55,11 +68,26 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     backgroundColor: '#1d1d2e',
   },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '90%', // Ajuste conforme necessário
+    marginBottom: 20,
+  },
   title: {
     fontSize: 30,
     fontWeight: 'bold',
     color: '#FFF',
-    marginBottom: 24,
+  },
+  logoutButton: {
+    backgroundColor: '#ff4d4d', // Cor de fundo do botão
+    padding: 8,
+    borderRadius: 5,
+  },
+  logoutText: {
+    color: '#FFF',
+    fontWeight: 'bold',
   },
   input: {
     width: '90%',

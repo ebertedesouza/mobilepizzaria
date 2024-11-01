@@ -1,13 +1,14 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import SignIn from '../pages/SignIn'; // Importando a tela de login
-import Dashboard from '../pages/Dashboard'; // Verifique se o caminho está correto
+import SignIn from '../pages/SignIn';
+import Dashboard from '../pages/Dashboard';
 import Order from '../pages/Order';
-import FinishOrder from '../pages/FinishOrder';
+import FinishOrder from '../pages/FinishOrders'; 
+import OpenOrders from '../pages/OpenOrders/OpenOrders'; 
 
 export type StackPramsList = {
-  SignIn: undefined; // Adicionando a tela de login aqui
+  SignIn: undefined;
   Dashboard: undefined;
   Order: {
     number: number | string;
@@ -17,15 +18,16 @@ export type StackPramsList = {
     number: number | string;
     order_id: string;
   };
+  OpenOrders: undefined; // Adicionando a nova rota
 };
 
 const Stack = createNativeStackNavigator<StackPramsList>();
 
 function AppRoutes() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="SignIn">
       <Stack.Screen 
-        name="SignIn" // Adicionando a tela de login
+        name="SignIn"
         component={SignIn} 
         options={{ headerShown: false }} 
       />
@@ -44,6 +46,17 @@ function AppRoutes() {
         component={FinishOrder}
         options={{
           title: 'Finalizando',
+          headerStyle: {
+            backgroundColor: '#1d1d2e',
+          },
+          headerTintColor: '#FFF',
+        }} 
+      />
+      <Stack.Screen
+        name="OpenOrders" 
+        component={OpenOrders}
+        options={{
+          title: 'Pedidos em Aberto',
           headerStyle: {
             backgroundColor: '#1d1d2e',
           },

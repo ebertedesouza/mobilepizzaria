@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Configurar a URL do seu backend
 const api = axios.create({
-  baseURL: 'http://localhost:3333/', // Substitua pela URL do seu backend
+  baseURL: 'https://pizzaria-orpin.vercel.app//', // Substitua pela URL do seu backend
 });
 
 // Define a interface para as credenciais
